@@ -8,8 +8,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.obstacleavoid.ObstacleAvoidGame;
+import com.obstacleavoid.common.EntityFactory;
 import com.obstacleavoid.config.GameConfig;
 import com.obstacleavoid.system.debug.DebugCameraSystem;
+import com.obstacleavoid.system.debug.DebugRenderSystem;
 import com.obstacleavoid.system.debug.GridRenderSystem;
 import com.obstacleavoid.util.GdxUtils;
 
@@ -22,6 +24,7 @@ public class GameScreen implements Screen {
     private Viewport viewport;
     private ShapeRenderer renderer;
     private PooledEngine engine;
+    private EntityFactory factory;
 
     public GameScreen(ObstacleAvoidGame game){
         this.game = game;
@@ -34,10 +37,14 @@ public class GameScreen implements Screen {
         viewport = new FitViewport(GameConfig.WORLD_WIDTH, GameConfig.WORLD_HEIGHT, camera);
         renderer = new ShapeRenderer();
         engine = new PooledEngine();
+        factory = new EntityFactory(engine);
 
         engine.addSystem(new GridRenderSystem(viewport, renderer));
         engine.addSystem(new DebugCameraSystem(camera,
                 GameConfig.WORLD_CENTER_X,GameConfig.WORLD_CENTER_Y));
+        engine.addSystem(new DebugRenderSystem(viewport, renderer));
+
+        factory.addPlayer();
     }
 
     @Override
