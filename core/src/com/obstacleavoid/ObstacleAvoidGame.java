@@ -8,36 +8,36 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Logger;
 import com.obstacleavoid.screen.loading.LoadingScreen;
 
-;
-
 public class ObstacleAvoidGame extends Game {
 
-	private AssetManager assetManager;
-	private SpriteBatch batch;
+    private static final Logger log = new Logger(ObstacleAvoidGame.class.getName(), Logger.DEBUG);
 
-	@Override
-	public void create() {
-		Gdx.app.setLogLevel(Application.LOG_DEBUG);
+    private AssetManager assetManager;
+    private SpriteBatch batch;
 
-		assetManager = new AssetManager();
-		assetManager.getLogger().setLevel(Logger.DEBUG);
+    @Override
+    public void create() {
+        Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
-		batch = new SpriteBatch();
+        assetManager = new AssetManager();
+        assetManager.getLogger().setLevel(Logger.DEBUG);
 
-		setScreen(new LoadingScreen(this));
-	}
+        batch = new SpriteBatch();
 
-	@Override
-	public void dispose() {
-		assetManager.dispose();
-		batch.dispose();
-	}
+        setScreen(new LoadingScreen(this));
+    }
 
-	public AssetManager getAssetManager() {
-		return assetManager;
-	}
+    @Override
+    public void dispose() {
+        assetManager.dispose();
+        batch.dispose();
+    }
 
-	public SpriteBatch getBatch() {
-		return batch;
-	}
+    public AssetManager getAssetManager() {
+        return assetManager;
+    }
+
+    public SpriteBatch getBatch() {
+        return batch;
+    }
 }
