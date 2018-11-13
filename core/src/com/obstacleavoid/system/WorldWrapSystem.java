@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.obstacleavoid.common.Mappers;
 import com.obstacleavoid.component.PositionComponent;
 import com.obstacleavoid.component.WorldWrapComponent;
-import com.sun.prism.image.ViewPort;
 
 public class WorldWrapSystem extends IteratingSystem {
 
