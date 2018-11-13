@@ -6,6 +6,7 @@ import com.obstacleavoid.component.BoundsComponent;
 import com.obstacleavoid.component.MovementComponent;
 import com.obstacleavoid.component.PlayerComponent;
 import com.obstacleavoid.component.PositionComponent;
+import com.obstacleavoid.component.WorldWrapComponent;
 import com.obstacleavoid.config.GameConfig;
 
 public class EntityFactory {
@@ -31,11 +32,14 @@ public class EntityFactory {
 
         PlayerComponent player = engine.createComponent(PlayerComponent.class);
 
+        WorldWrapComponent worldWrap = engine.createComponent(WorldWrapComponent.class);
+
         Entity entity = engine.createEntity();
         entity.add(bounds);
         entity.add(movement);
         entity.add(player);
         entity.add(position);
+        entity.add(worldWrap);
 
         engine.addEntity(entity);
     }

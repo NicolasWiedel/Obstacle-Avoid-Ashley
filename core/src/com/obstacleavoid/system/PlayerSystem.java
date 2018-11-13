@@ -38,6 +38,14 @@ public class PlayerSystem extends IteratingSystem {
             movement.xSpeed = -GameConfig.MAX_PLAYER_X_SPEED;
         }
 
+        movement.ySpeed = 0;
+
+        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+            movement.ySpeed = GameConfig.MAX_PLAYER_X_SPEED;
+        }else if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+            movement.ySpeed = -GameConfig.MAX_PLAYER_X_SPEED;
+        }
+
         BoundsComponent bounds = Mappers.BOUNDS.get(entity);
 
         log.debug("processEntity xSpeed = " + movement.xSpeed);
