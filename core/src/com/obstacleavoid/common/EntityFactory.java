@@ -43,4 +43,24 @@ public class EntityFactory {
 
         engine.addEntity(entity);
     }
+
+    public void addObstacle(float x, float y){
+        BoundsComponent bounds = engine.createComponent(BoundsComponent.class);
+        bounds.bounds.set(x, y, GameConfig.OBSTACLE_BOUNDS_RADIUS);
+
+        MovementComponent movement = engine.createComponent(MovementComponent.class);
+        movement.ySpeed = -GameManager.INSTANCE.getDifficultyLevel().getObstacleSpeed();
+
+        PositionComponent position = engine.createComponent(PositionComponent.class);
+        position.x = x;
+        position.y = y;
+
+        Entity entity = engine.createEntity();
+
+        entity.add(bounds);
+        entity.add(movement);
+        entity.add(position);
+
+        engine.addEntity(entity);
+    }
 }
