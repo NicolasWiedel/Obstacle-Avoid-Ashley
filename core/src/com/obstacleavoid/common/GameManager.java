@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.obstacleavoid.ObstacleAvoidGame;
 import com.obstacleavoid.config.DifficultyLevel;
+import com.obstacleavoid.config.GameConfig;
 
 /**
  * Singelton Class
@@ -15,10 +16,11 @@ public class GameManager {
     private static final String HIGH_SCORE_KEY = "highscore";
     private static final String DIFFICULTY_KEY = "difficulty";
 
-
     private Preferences PREFS;
     private int highscore;
     private DifficultyLevel difficultyLevel = DifficultyLevel.MEDIUM;
+    private int lives = GameConfig.LIVES_START;
+    private int score;
 
     private GameManager() {
         PREFS = Gdx.app.getPreferences(ObstacleAvoidGame.class.getSimpleName());
@@ -35,6 +37,14 @@ public class GameManager {
         highscore = score;
         PREFS.putInteger(HIGH_SCORE_KEY, highscore);
         PREFS.flush();
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     public String getHighScoreString() {

@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.obstacleavoid.component.BoundsComponent;
 import com.obstacleavoid.component.CleanUpComponent;
 import com.obstacleavoid.component.MovementComponent;
+import com.obstacleavoid.component.ObstacleComponent;
 import com.obstacleavoid.component.PlayerComponent;
 import com.obstacleavoid.component.PositionComponent;
 import com.obstacleavoid.component.WorldWrapComponent;
@@ -59,12 +60,15 @@ public class EntityFactory {
 
         CleanUpComponent cleanUp = engine.createComponent(CleanUpComponent.class);
 
+        ObstacleComponent obstacle = engine.createComponent(ObstacleComponent.class);
+
         Entity entity = engine.createEntity();
 
         entity.add(bounds);
         entity.add(movement);
         entity.add(position);
         entity.add(cleanUp);
+        entity.add(obstacle);
 
         engine.addEntity(entity);
     }
