@@ -14,8 +14,6 @@ import com.obstacleavoid.config.GameConfig;
 
 public class PlayerSystem extends IteratingSystem {
 
-    private static final Logger log = new Logger(PlayerSystem.class.getName(), Logger.DEBUG);
-
     private static final Family FAMILY = Family.all(
             PlayerComponent.class,
             MovementComponent.class,
@@ -47,8 +45,5 @@ public class PlayerSystem extends IteratingSystem {
         }
 
         BoundsComponent bounds = Mappers.BOUNDS.get(entity);
-
-        log.debug("processEntity xSpeed = " + movement.xSpeed);
-        log.debug("bounds = " + bounds.bounds);
     }
 }

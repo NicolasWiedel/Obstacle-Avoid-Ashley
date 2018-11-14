@@ -3,11 +3,13 @@ package com.obstacleavoid.common;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.obstacleavoid.component.BoundsComponent;
+import com.obstacleavoid.component.CleanUpComponent;
 import com.obstacleavoid.component.MovementComponent;
 import com.obstacleavoid.component.PlayerComponent;
 import com.obstacleavoid.component.PositionComponent;
 import com.obstacleavoid.component.WorldWrapComponent;
 import com.obstacleavoid.config.GameConfig;
+import com.obstacleavoid.system.WorldWrapSystem;
 
 public class EntityFactory {
 
@@ -55,11 +57,14 @@ public class EntityFactory {
         position.x = x;
         position.y = y;
 
+        CleanUpComponent cleanUp = engine.createComponent(CleanUpComponent.class);
+
         Entity entity = engine.createEntity();
 
         entity.add(bounds);
         entity.add(movement);
         entity.add(position);
+        entity.add(cleanUp);
 
         engine.addEntity(entity);
     }
