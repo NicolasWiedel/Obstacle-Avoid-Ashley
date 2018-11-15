@@ -29,7 +29,7 @@ public class GameManager {
         difficultyLevel = DifficultyLevel.valueOf(difficultyName);
     }
 
-    public void updateHighScore(int score) {
+    public void updateHighScore() {
         if(score < highscore) {
             return;
         }
@@ -37,6 +37,14 @@ public class GameManager {
         highscore = score;
         PREFS.putInteger(HIGH_SCORE_KEY, highscore);
         PREFS.flush();
+    }
+
+    public void decrementLives(){
+        lives--;
+    }
+
+    public boolean isGameOver(){
+        return lives <= 0;
     }
 
     public int getLives() {

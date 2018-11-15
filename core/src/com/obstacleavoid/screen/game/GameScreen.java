@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,8 +14,10 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.obstacleavoid.ObstacleAvoidGame;
 import com.obstacleavoid.assets.AssetDescriptors;
 import com.obstacleavoid.common.EntityFactory;
+import com.obstacleavoid.common.GameManager;
 import com.obstacleavoid.component.MovementComponent;
 import com.obstacleavoid.config.GameConfig;
+import com.obstacleavoid.screen.menu.MenuScreen;
 import com.obstacleavoid.system.BoundsSystem;
 import com.obstacleavoid.system.CleanUpSystem;
 import com.obstacleavoid.system.HudRenderSystem;
@@ -22,6 +25,7 @@ import com.obstacleavoid.system.MovementSystem;
 import com.obstacleavoid.system.ObstacleSpawnSystem;
 import com.obstacleavoid.system.PlayerSystem;
 import com.obstacleavoid.system.WorldWrapSystem;
+import com.obstacleavoid.system.collision.CollisionListener;
 import com.obstacleavoid.system.collision.CollisionSystem;
 import com.obstacleavoid.system.debug.DebugCameraSystem;
 import com.obstacleavoid.system.debug.DebugRenderSystem;
@@ -39,6 +43,8 @@ public class GameScreen implements Screen {
     private ShapeRenderer renderer;
     private PooledEngine engine;
     private EntityFactory factory;
+    private Sound hit;
+    private boolean reset;
 
     public GameScreen(ObstacleAvoidGame game){
         this.game = game;
@@ -55,6 +61,22 @@ public class GameScreen implements Screen {
         factory = new EntityFactory(engine);
 
         BitmapFont font = assetManager.get(AssetDescriptors.FONT);
+        hit = assetManager.get(AssetDescriptors.HIT_SOUND);
+
+        CollisionListener listener = new CollisionListener() {
+            @Override
+            public void hitObstacle() {
+                GameManager.INSTANCE.decrementLives();
+                hit.play();
+
+                if(GameManager.INSTANCE.isGameOver()){
+                    GameManager.INSTANCE.updateHighScore();
+                }else{
+                    engine.removeAllEntities();
+                    reset = true;
+                }
+            }
+        };
 
         engine.addSystem(new DebugCameraSystem(camera,
                 GameConfig.WORLD_CENTER_X,GameConfig.WORLD_CENTER_Y));
@@ -65,20 +87,33 @@ public class GameScreen implements Screen {
         engine.addSystem(new BoundsSystem());
         engine.addSystem(new ObstacleSpawnSystem(factory));
         engine.addSystem(new CleanUpSystem());
-        engine.addSystem(new CollisionSystem());
+        engine.addSystem(new CollisionSystem(listener));
 
         engine.addSystem(new GridRenderSystem(viewport, renderer));
         engine.addSystem(new DebugRenderSystem(viewport, renderer));
 
         engine.addSystem(new HudRenderSystem(hudViewport, game.getBatch(), font));
 
-        factory.addPlayer();
+        addEntity();
     }
 
     @Override
     public void render(float delta) {
         GdxUtils.clearScreen();
         engine.update(delta);
+
+        if(GameManager.INSTANCE.isGameOver()){
+            game.setScreen(new MenuScreen(game));
+        }
+
+        if(reset){
+            reset = false;
+            addEntity();
+        }
+    }
+
+    private void addEntity(){
+        factory.addPlayer();;
     }
 
     @Override
