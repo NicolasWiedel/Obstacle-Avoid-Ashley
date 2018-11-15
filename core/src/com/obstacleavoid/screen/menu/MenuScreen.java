@@ -14,7 +14,6 @@ import com.obstacleavoid.ObstacleAvoidGame;
 import com.obstacleavoid.assets.AssetDescriptors;
 import com.obstacleavoid.assets.RegionNames;
 import com.obstacleavoid.screen.game.GameScreen;
-import com.obstacleavoid.screen.game.GameScreenOld;
 
 public class MenuScreen extends MenuScreenBase {
 

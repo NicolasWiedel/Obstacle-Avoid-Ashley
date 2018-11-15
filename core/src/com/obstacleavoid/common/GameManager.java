@@ -39,6 +39,15 @@ public class GameManager {
         PREFS.flush();
     }
 
+    public void reset(){
+        lives = GameConfig.LIVES_START;
+        score = 0;
+    }
+
+    public void updateScore(int amount){
+        score += amount;
+    }
+
     public void decrementLives(){
         lives--;
     }

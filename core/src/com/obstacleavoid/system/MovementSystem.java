@@ -3,7 +3,6 @@ package com.obstacleavoid.system;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.utils.Logger;
 import com.obstacleavoid.common.Mappers;
 import com.obstacleavoid.component.MovementComponent;
 import com.obstacleavoid.component.PositionComponent;

@@ -5,9 +5,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.utils.Logger;
 import com.obstacleavoid.common.Mappers;
-import com.obstacleavoid.component.BoundsComponent;
 import com.obstacleavoid.component.MovementComponent;
 import com.obstacleavoid.component.PlayerComponent;
 import com.obstacleavoid.config.GameConfig;
@@ -16,11 +14,10 @@ public class PlayerSystem extends IteratingSystem {
 
     private static final Family FAMILY = Family.all(
             PlayerComponent.class,
-            MovementComponent.class,
-            BoundsComponent.class
+            MovementComponent.class
     ).get();
 
-    public PlayerSystem(){
+    public PlayerSystem() {
         super(FAMILY);
     }
 
@@ -30,20 +27,22 @@ public class PlayerSystem extends IteratingSystem {
 
         movement.xSpeed = 0;
 
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             movement.xSpeed = GameConfig.MAX_PLAYER_X_SPEED;
-        }else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+        } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             movement.xSpeed = -GameConfig.MAX_PLAYER_X_SPEED;
         }
 
-        movement.ySpeed = 0;
+        // test code
+//        movement.ySpeed = 0;
+//
+//        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+//            movement.ySpeed = GameConfig.MAX_PLAYER_X_SPEED;
+//        } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+//            movement.ySpeed = -GameConfig.MAX_PLAYER_X_SPEED;
+//        }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            movement.ySpeed = GameConfig.MAX_PLAYER_X_SPEED;
-        }else if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            movement.ySpeed = -GameConfig.MAX_PLAYER_X_SPEED;
-        }
+        // end test code
 
-        BoundsComponent bounds = Mappers.BOUNDS.get(entity);
     }
 }

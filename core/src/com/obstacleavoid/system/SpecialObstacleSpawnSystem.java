@@ -5,12 +5,12 @@ import com.badlogic.gdx.math.MathUtils;
 import com.obstacleavoid.common.EntityFactory;
 import com.obstacleavoid.config.GameConfig;
 
-public class ObstacleSpawnSystem extends IntervalSystem {
+public class SpecialObstacleSpawnSystem extends IntervalSystem {
 
     private final EntityFactory factory;
 
-    public ObstacleSpawnSystem(EntityFactory factory){
-        super(GameConfig.OBSTACLE_SPAWN_TIME);
+    public SpecialObstacleSpawnSystem(EntityFactory factory){
+        super(GameConfig.SPECIAL_OBSTACLE_SPAWN_TIME);
         this.factory = factory;
     }
 
@@ -22,6 +22,6 @@ public class ObstacleSpawnSystem extends IntervalSystem {
         float obstacleX = MathUtils.random(min, max);
         float obstacleY = GameConfig.WORLD_HEIGHT;
 
-        factory.addObstacle(obstacleX, obstacleY);
+        factory.addSpecialObstacle(obstacleX, obstacleY);
     }
 }

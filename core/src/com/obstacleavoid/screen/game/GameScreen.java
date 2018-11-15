@@ -2,12 +2,10 @@ package com.obstacleavoid.screen.game;
 
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -15,7 +13,6 @@ import com.obstacleavoid.ObstacleAvoidGame;
 import com.obstacleavoid.assets.AssetDescriptors;
 import com.obstacleavoid.common.EntityFactory;
 import com.obstacleavoid.common.GameManager;
-import com.obstacleavoid.component.MovementComponent;
 import com.obstacleavoid.config.GameConfig;
 import com.obstacleavoid.screen.menu.MenuScreen;
 import com.obstacleavoid.system.BoundsSystem;
@@ -24,6 +21,9 @@ import com.obstacleavoid.system.HudRenderSystem;
 import com.obstacleavoid.system.MovementSystem;
 import com.obstacleavoid.system.ObstacleSpawnSystem;
 import com.obstacleavoid.system.PlayerSystem;
+import com.obstacleavoid.system.RenderSystem;
+import com.obstacleavoid.system.ScoreSystem;
+import com.obstacleavoid.system.SpecialObstacleSpawnSystem;
 import com.obstacleavoid.system.WorldWrapSystem;
 import com.obstacleavoid.system.collision.CollisionListener;
 import com.obstacleavoid.system.collision.CollisionSystem;
@@ -33,6 +33,8 @@ import com.obstacleavoid.system.debug.GridRenderSystem;
 import com.obstacleavoid.util.GdxUtils;
 
 public class GameScreen implements Screen {
+
+    private static final boolean DEBUG = false;
 
     private final ObstacleAvoidGame game;
     private AssetManager assetManager;
@@ -58,7 +60,7 @@ public class GameScreen implements Screen {
         hudViewport = new FitViewport(GameConfig.HUD_WIDTH, GameConfig.HUD_HEIGHT);
         renderer = new ShapeRenderer();
         engine = new PooledEngine();
-        factory = new EntityFactory(engine);
+        factory = new EntityFactory(engine, assetManager);
 
         BitmapFont font = assetManager.get(AssetDescriptors.FONT);
         hit = assetManager.get(AssetDescriptors.HIT_SOUND);
@@ -78,21 +80,24 @@ public class GameScreen implements Screen {
             }
         };
 
-        engine.addSystem(new DebugCameraSystem(camera,
-                GameConfig.WORLD_CENTER_X,GameConfig.WORLD_CENTER_Y));
-
         engine.addSystem(new PlayerSystem());
         engine.addSystem(new MovementSystem());
         engine.addSystem(new WorldWrapSystem(viewport));
         engine.addSystem(new BoundsSystem());
         engine.addSystem(new ObstacleSpawnSystem(factory));
+        engine.addSystem(new SpecialObstacleSpawnSystem(factory));
         engine.addSystem(new CleanUpSystem());
         engine.addSystem(new CollisionSystem(listener));
-
-        engine.addSystem(new GridRenderSystem(viewport, renderer));
-        engine.addSystem(new DebugRenderSystem(viewport, renderer));
-
+        engine.addSystem(new ScoreSystem());
+        engine.addSystem(new RenderSystem(viewport, game.getBatch()));
         engine.addSystem(new HudRenderSystem(hudViewport, game.getBatch(), font));
+
+        if(DEBUG) {
+            engine.addSystem(new DebugCameraSystem(camera,
+                    GameConfig.WORLD_CENTER_X, GameConfig.WORLD_CENTER_Y));
+            engine.addSystem(new GridRenderSystem(viewport, renderer));
+            engine.addSystem(new DebugRenderSystem(viewport, renderer));
+        }
 
         addEntity();
     }
@@ -103,6 +108,7 @@ public class GameScreen implements Screen {
         engine.update(delta);
 
         if(GameManager.INSTANCE.isGameOver()){
+            GameManager.INSTANCE.reset();
             game.setScreen(new MenuScreen(game));
         }
 
@@ -113,6 +119,7 @@ public class GameScreen implements Screen {
     }
 
     private void addEntity(){
+        factory.addBackground();
         factory.addPlayer();;
     }
 
