@@ -6,6 +6,7 @@ import com.obstacleavoid.component.DimensionComponent;
 import com.obstacleavoid.component.MovementComponent;
 import com.obstacleavoid.component.ObstacleComponent;
 import com.obstacleavoid.component.PositionComponent;
+import com.obstacleavoid.component.SpecialObstacleComponent;
 import com.obstacleavoid.component.TextureComponent;
 
 public class Mappers {
@@ -27,6 +28,9 @@ public class Mappers {
 
     public static final ComponentMapper<DimensionComponent> DIMENSION =
             ComponentMapper.getFor(DimensionComponent.class);
+
+    public static final ComponentMapper<SpecialObstacleComponent> SPECIAL_OBSTACLE =
+            ComponentMapper.getFor(SpecialObstacleComponent.class);
 
     private Mappers(){
 

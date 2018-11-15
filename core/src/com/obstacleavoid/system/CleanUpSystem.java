@@ -23,7 +23,7 @@ public class CleanUpSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
         PositionComponent position = Mappers.POSITION.get(entity);
 
-        if(position.y < -GameConfig.OBSTACLE_SIZE){
+        if(position.y < -GameConfig.OBSTACLE_SIZE * 3){
             getEngine().removeEntity(entity);
         }
     }

@@ -78,6 +78,12 @@ public class GameScreen implements Screen {
                     reset = true;
                 }
             }
+
+            @Override
+            public void hitSpecialObstacle() {
+                GameManager.INSTANCE.incrementLives();
+                hit.play();
+            }
         };
 
         engine.addSystem(new PlayerSystem());

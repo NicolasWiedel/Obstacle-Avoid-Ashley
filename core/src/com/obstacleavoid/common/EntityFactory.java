@@ -13,6 +13,7 @@ import com.obstacleavoid.component.MovementComponent;
 import com.obstacleavoid.component.ObstacleComponent;
 import com.obstacleavoid.component.PlayerComponent;
 import com.obstacleavoid.component.PositionComponent;
+import com.obstacleavoid.component.SpecialObstacleComponent;
 import com.obstacleavoid.component.TextureComponent;
 import com.obstacleavoid.component.WorldWrapComponent;
 import com.obstacleavoid.config.GameConfig;
@@ -113,7 +114,7 @@ public class EntityFactory {
 
         CleanUpComponent cleanUp = engine.createComponent(CleanUpComponent.class);
 
-        ObstacleComponent obstacle = engine.createComponent(ObstacleComponent.class);
+        SpecialObstacleComponent specialObstacle = engine.createComponent(SpecialObstacleComponent.class);
 
         TextureComponent texture = engine.createComponent(TextureComponent.class);
         texture.region = gamePlayAtlas.findRegion(RegionNames.PLAYER);
@@ -128,7 +129,7 @@ public class EntityFactory {
         entity.add(movement);
         entity.add(position);
         entity.add(cleanUp);
-        entity.add(obstacle);
+        entity.add(specialObstacle);
         entity.add(texture);
         entity.add(dimension);
 

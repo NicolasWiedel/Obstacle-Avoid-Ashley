@@ -52,6 +52,8 @@ public class GameManager {
         lives--;
     }
 
+    public void incrementLives(){ lives++; }
+
     public boolean isGameOver(){
         return lives <= 0;
     }
